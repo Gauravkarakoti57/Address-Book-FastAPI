@@ -11,5 +11,4 @@ def get_current_user(data: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     return token.verify_token(data, credentials_exception)
-    # user = get_user(fake_users_db, username=token_data.username)
     

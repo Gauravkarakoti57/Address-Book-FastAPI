@@ -1,11 +1,18 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class Blog(BaseModel):
-    title : str
-    body : str
+class Address(BaseModel):
+    name : str
+    contact : str
+    address : str
+    city : str
+    state : str
+    country : str
+    postcode : str
+    latitude : float
+    longitude : float
 
-class ShowBlog(Blog):
+class ShowAddress(Address):
     
     class Config:
         orm_mode = True

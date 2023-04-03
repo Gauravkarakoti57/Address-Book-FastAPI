@@ -24,9 +24,3 @@ def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(
                             detail="Incorrect Password")
     access_token = create_access_token(data={"sub": user.email})
     return {"access_token": access_token, "token_type": "bearer"}
-    # return user
-
-
-# @router.post("/logout")
-# def logout(request: schemas.User, db: Session = Depends(get_db)):
-#     return 'logout'
