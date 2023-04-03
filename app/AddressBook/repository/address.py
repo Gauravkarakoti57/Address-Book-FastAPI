@@ -62,7 +62,22 @@ def haversine(latitude, longitude, lat, lon, distance):
              math.cos(latitude) * math.cos(longitude))
     rad = 6371
     c = 2 * math.asin(math.sqrt(a))
-    if distance < rad * c:
+    print("Hello", rad * c, distance)
+    if distance >= (rad * c):
+        print("yes")
         return True
     else:
+        print("No")
         return False
+    
+def nearest_addresses(db, lat, long, check_distance):
+    addresses_list = []
+    addresses = db.query(models.Address).all()
+    for temp_address in addresses:
+        distance = haversine(float(temp_address.latitude), float(temp_address.longitude), lat, long, check_distance)
+        if distance:
+            addresses_list.append(temp_address)
+    if not addresses_list:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f"No address found within this {check_distance} KM. Try to increase the distance")
+    return addresses_list

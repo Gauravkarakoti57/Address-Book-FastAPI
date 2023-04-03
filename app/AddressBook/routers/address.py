@@ -34,11 +34,5 @@ def update(id:int, request: schemas.Address, db: Session = Depends(get_db), curr
     return address.update(id, request, db)
 
 @router.get("/{lat}/{long}/{distance}",status_code=status.HTTP_200_OK, response_model=List[schemas.ShowAddress])
-def get_address_in_distance(lat: float,long : float, distance: float, response: Response, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
-    addresses_list = []
-    addresses = db.query(models.Address).all()
-    for temp_address in addresses:
-        distance = address.haversine(float(temp_address.latitude), float(temp_address.longitude), lat, long, distance)
-        if distance:
-            addresses_list.append(temp_address)
-    return addresses_list
+def get_address_within_distance(lat: float,long : float, distance: float, response: Response, db: Session = Depends(get_db), current_user: schemas.User = Depends(oauth2.get_current_user)):
+    return address.nearest_addresses(db, lat, long, distance)
